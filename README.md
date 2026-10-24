@@ -23,7 +23,7 @@ Abrí `http://localhost:5173`.
 | `npm run build` | `tsc --noEmit` + build de producción a `dist/` |
 | `npm run preview` | Sirve el build de producción |
 | `npm run typecheck` | Solo el chequeo de tipos |
-| `npm run test` | Suite de Vitest (44 tests) |
+| `npm run test` | Suite de Vitest (50 tests) |
 
 ## Atajos
 

@@ -200,39 +200,42 @@ MindStudy
 │   ├── 02 Por qué existe
 │   ├── 03 Cómo funciona
 │   └── 04 Empezar ──► Dashboard
-├── Dashboard (#/dashboard)
+├── Dashboard (index.html)
 │   ├── Saludo + fecha
 │   ├── 4 stats: racha · foco hoy · nivel · tarjetas por repasar
 │   ├── Tu día (tareas por Eisenhower)
 │   ├── Progreso semanal
 │   ├── Brain dump
 │   └── Jardín (mini)
-├── Enfoque (#/focus) — dos capas
+├── Enfoque (enfoque.html) — dos capas
 │   ├── Normal: dentro del shell, con selector de modo, anillo, sonido y «Hoy»
 │   ├── Pantalla completa: capa inmersiva sobre el shell + Fullscreen API
 │   └── Esc cierra SOLO la capa inmersiva y vuelve al enfoque normal
-├── Música (#/music) — el rincón del gato
+├── Música (musica.html) — el rincón del gato
 │   ├── Escena del gato (imagen en `public/gato.png`, con respaldo vectorial)
 │   ├── 12 ambientes de ruido filtrado
 │   ├── 4 generativas que sintetizan notas al azar
 │   └── Spotify (opt-in, requiere Client ID propio)
-├── Planificador (#/planner)
+├── Planificador (planificador.html)
 │   ├── Alta de tarea
 │   ├── Matriz Eisenhower 2×2
 │   ├── Backlog
 │   └── Grilla horaria 07:00–23:00
-├── Calculadora (#/calculator)
+├── Calculadora (calculadora.html)
 │   ├── Inputs: examen, minutos/día, temas
 │   └── Plan por día + aviso de déficit
-├── Tarjetas (#/cards)
+├── Tarjetas (tarjetas.html)
 │   ├── Mazos
 │   ├── Detalle de mazo
 │   └── Sesión de repaso
-└── Jardín (#/garden)
-    ├── Stats acumuladas
-    ├── Grilla de plantas
-    ├── Chart semanal
-    └── Historial
+├── Jardín (jardin.html)
+│   ├── Stats acumuladas
+│   ├── Grilla de plantas
+│   ├── Chart semanal
+│   └── Historial
+└── Contacto (contacto.html)
+    ├── Formulario con JavaScript nativo, fuera de React
+    └── Validación en el navegador + guardado local
 ```
 
 La historia se puede volver a ver desde **"La historia"**, al pie del sidebar. No vuelve a aparecer sola: `introSeen` queda persistido.
