@@ -1,5 +1,7 @@
 # MindStudy
 
+**En vivo:** https://godzikong665.github.io/MindStudy/
+
 App de concentración y productividad académica: temporizador de enfoque, planificador con time-blocking, calculadora de carga de estudio, tarjetas con repetición espaciada y un jardín que crece con tus bloques de foco.
 
 Sin backend. Todo el estado vive en tu navegador (`localStorage`), así que abre sin cuenta y sin latencia.
