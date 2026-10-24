@@ -57,7 +57,7 @@ export function AppShell({
     <div className="flex min-h-dvh flex-col">
       {/* ============================ Header ============================ */}
       <header className="sticky top-0 z-40 border-b-[3px] border-double border-line-strong bg-surface/90 backdrop-blur-md">
-        <div className="mx-auto flex h-14 w-full max-w-6xl items-center gap-2 px-5 sm:px-7 lg:h-16 lg:gap-5">
+        <div className="container mx-auto d-flex align-items-center h-14 w-full max-w-6xl gap-2 px-5 sm:px-7 lg:h-16 lg:gap-5">
           <Logo />
 
           {/* --- Navegación horizontal (escritorio) --- */}
@@ -157,11 +157,11 @@ export function AppShell({
       </header>
 
       {/* ============================= Contenido ========================= */}
-      <main className="mx-auto w-full max-w-6xl flex-1 px-5 py-7 sm:px-7 lg:py-10">
+      <main className="container mx-auto w-full max-w-6xl flex-1 px-5 py-7 sm:px-7 lg:py-10">
         {children}
       </main>
 
-      <footer className="mx-auto w-full max-w-6xl px-5 pb-8 pt-2 sm:px-7">
+      <footer className="container mx-auto w-full max-w-6xl px-5 pb-8 pt-2 sm:px-7">
         <p className="border-t border-line pt-4 text-[0.6875rem] tracking-wide text-ink-3">
           MindStudy · un bloque a la vez
         </p>

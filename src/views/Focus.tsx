@@ -138,9 +138,9 @@ export function FocusView() {
         }
       />
 
-      <div className="grid gap-5 lg:grid-cols-[1.15fr_0.85fr]">
+      <div className="row">
         {/* ------------------------------ Timer ----------------------------- */}
-        <Card className="flex flex-col items-center justify-center gap-6 px-6 py-8">
+        <Card className="col-12 col-lg-7 flex flex-col items-center justify-center gap-6 px-6 py-8">
           <Segmented
             options={TIMER_MODES.map((m) => ({ id: m.id, label: m.label, hint: m.blurb }))}
             value={timer.modeId}
@@ -239,7 +239,7 @@ export function FocusView() {
         </Card>
 
         {/* ----------------------------- Sidebar ---------------------------- */}
-        <div className="flex flex-col gap-5">
+        <div className="col-12 col-lg-5 d-flex flex-column gap-5">
           <Card>
             <div className="mb-4 flex items-center justify-between border-b border-line pb-2.5">
               <h3 className="text-[0.9375rem] font-semibold text-ink">Sonido ambiental</h3>

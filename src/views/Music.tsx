@@ -106,9 +106,9 @@ export function MusicView() {
         }
       />
 
-      <div className="grid gap-5 lg:grid-cols-[0.82fr_1.18fr]">
+      <div className="row">
         {/* ---------------------------- El gato ----------------------------- */}
-        <div className="flex flex-col gap-4">
+        <div className="col-12 col-lg-5 d-flex flex-column gap-4">
           <CatScene playing={Boolean(playing)} />
 
           <Card>
@@ -165,7 +165,7 @@ export function MusicView() {
         </div>
 
         {/* --------------------------- Biblioteca --------------------------- */}
-        <div className="flex flex-col gap-5">
+        <div className="col-12 col-lg-7 d-flex flex-column gap-5">
           <Card>
             <SectionHead
               title="Ambiente"

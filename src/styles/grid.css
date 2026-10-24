@@ -1,0 +1,114 @@
+/* ============================================================================
+   Subconjunto del Grid System de Bootstrap 5.3
+   ----------------------------------------------------------------------------
+   Se vendoriza en lugar de importar `bootstrap-grid.min.css` porque ese archivo
+   incluye las utilidades de espaciado (.p-*, .m-*) con `!important`, y el
+   `!important` INVIERTE la prioridad de las capas CSS: habría pisado las clases
+   de Tailwind y cambiado el espaciado de toda la aplicación.
+
+   Aquí están, con las mismas métricas y semántica de Bootstrap, únicamente:
+     · contenedores  .container / .container-fluid
+     · rejilla        .row / .col-* / .col-sm-* / .col-md-* / .col-lg-*
+     · flexbox        .d-flex / .justify-content-* / .align-items-*
+
+   Sin `!important` y sin colisiones de nombre: los estilos existentes mandan.
+   ========================================================================== */
+
+@layer vendor {
+  /* ---------------------------- Contenedores ---------------------------- */
+  .container,
+  .container-fluid {
+    width: 100%;
+    margin-inline: auto;
+  }
+
+  /* ------------------------------- Rejilla ------------------------------ */
+  .row {
+    --row-gap: 1.25rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--row-gap);
+  }
+
+  /* Variantes de separación equivalentes a gap-3 / gap-4 / gap-5 de Tailwind,
+     para que migrar de `grid` a `row` no mueva un solo píxel. */
+  .row-gap-2 { --row-gap: 0.5rem; }
+  .row-gap-3 { --row-gap: 0.75rem; }
+  .row-gap-4 { --row-gap: 1rem; }
+  .row-gap-5 { --row-gap: 1.25rem; }
+
+  .row > * {
+    flex: 0 0 auto;
+    width: 100%;
+    min-width: 0;
+  }
+
+  /* Columnas base (menos de 576px) */
+  .col-1  { width: calc((100% - var(--row-gap) * 11) / 12); }
+  .col-2  { width: calc((100% - var(--row-gap) * 10) / 12 * 2); }
+  .col-3  { width: calc((100% - var(--row-gap) * 3) / 4); }
+  .col-4  { width: calc((100% - var(--row-gap) * 2) / 3); }
+  .col-5  { width: calc((100% - var(--row-gap)) * 5 / 12); }
+  .col-6  { width: calc((100% - var(--row-gap)) / 2); }
+  .col-7  { width: calc((100% - var(--row-gap)) * 7 / 12); }
+  .col-8  { width: calc((100% - var(--row-gap)) * 8 / 12); }
+  .col-9  { width: calc((100% - var(--row-gap) * 3) / 4 * 3); }
+  .col-10 { width: calc((100% - var(--row-gap)) * 10 / 12); }
+  .col-11 { width: calc((100% - var(--row-gap)) * 11 / 12); }
+  .col-12 { width: 100%; }
+
+  /* sm — 576px */
+  @media (min-width: 576px) {
+    .col-sm-4 { width: calc((100% - var(--row-gap) * 2) / 3); }
+    .col-sm-6 { width: calc((100% - var(--row-gap)) / 2); }
+    .col-sm-12 { width: 100%; }
+  }
+
+  /* md — 768px */
+  @media (min-width: 768px) {
+    .col-md-3 { width: calc((100% - var(--row-gap) * 3) / 4); }
+    .col-md-4 { width: calc((100% - var(--row-gap) * 2) / 3); }
+    .col-md-6 { width: calc((100% - var(--row-gap)) / 2); }
+    .col-md-8 { width: calc((100% - var(--row-gap)) * 8 / 12); }
+    .col-md-12 { width: 100%; }
+  }
+
+  /* lg — 992px */
+  @media (min-width: 992px) {
+    .col-lg-3 { width: calc((100% - var(--row-gap) * 3) / 4); }
+    .col-lg-4 { width: calc((100% - var(--row-gap) * 2) / 3); }
+    .col-lg-5 { width: calc((100% - var(--row-gap)) * 5 / 12); }
+    .col-lg-6 { width: calc((100% - var(--row-gap)) / 2); }
+    .col-lg-7 { width: calc((100% - var(--row-gap)) * 7 / 12); }
+    .col-lg-8 { width: calc((100% - var(--row-gap)) * 8 / 12); }
+    .col-lg-9 { width: calc((100% - var(--row-gap) * 3) / 4 * 3); }
+    .col-lg-12 { width: 100%; }
+  }
+
+  /* ------------------------------ Flexbox ------------------------------- */
+  .d-flex { display: flex; }
+  .d-inline-flex { display: inline-flex; }
+  .flex-row { flex-direction: row; }
+  .flex-column { flex-direction: column; }
+  .flex-wrap { flex-wrap: wrap; }
+  .flex-nowrap { flex-wrap: nowrap; }
+  .flex-grow-1 { flex-grow: 1; }
+  .flex-shrink-0 { flex-shrink: 0; }
+  .flex-fill { flex: 1 1 auto; }
+
+  .justify-content-start { justify-content: flex-start; }
+  .justify-content-center { justify-content: center; }
+  .justify-content-end { justify-content: flex-end; }
+  .justify-content-between { justify-content: space-between; }
+  .justify-content-around { justify-content: space-around; }
+
+  .align-items-start { align-items: flex-start; }
+  .align-items-center { align-items: center; }
+  .align-items-end { align-items: flex-end; }
+  .align-items-stretch { align-items: stretch; }
+  .align-items-baseline { align-items: baseline; }
+
+  .align-self-start { align-self: flex-start; }
+  .align-self-center { align-self: center; }
+  .align-self-end { align-self: flex-end; }
+}

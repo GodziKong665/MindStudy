@@ -94,8 +94,8 @@ export function DashboardView({ navigate }: { navigate: (route: Route) => void }
       )}
 
       {/* ------------------------------- Stats ------------------------------ */}
-      <div className="mb-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <Card className="p-4">
+      <div className="row row-gap-3 mb-6">
+        <Card className="col-6 col-lg-3 p-4">
           <Stat
             label="Racha"
             value={`${streak} ${streak === 1 ? 'día' : 'días'}`}
@@ -104,7 +104,7 @@ export function DashboardView({ navigate }: { navigate: (route: Route) => void }
             icon={Flame}
           />
         </Card>
-        <Card className="p-4">
+        <Card className="col-6 col-lg-3 p-4">
           <Stat
             label="Foco hoy"
             value={formatDuration(todayMinutes)}
@@ -113,11 +113,11 @@ export function DashboardView({ navigate }: { navigate: (route: Route) => void }
             icon={Timer}
           />
         </Card>
-        <Card className="p-4">
+        <Card className="col-6 col-lg-3 p-4">
           <Stat label="Nivel" value={level.level} hint={`${xp} XP totales`} tone="grow" icon={Zap} />
           <ProgressBar value={level.progress * 100} tone="grow" className="mt-3" />
         </Card>
-        <Card className="p-4">
+        <Card className="col-6 col-lg-3 p-4">
           <Stat
             label="Para repasar"
             value={due}
@@ -128,9 +128,8 @@ export function DashboardView({ navigate }: { navigate: (route: Route) => void }
         </Card>
       </div>
 
-      <div className="grid gap-5 lg:grid-cols-[1.35fr_1fr]">
-        {/* ------------------------------ Today ----------------------------- */}
-        <div className="flex flex-col gap-5">
+      <div className="row">
+        <div className="col-12 col-lg-7 d-flex flex-column gap-5">
           <Card>
             <SectionHead
               title="Tu día"
@@ -199,7 +198,7 @@ export function DashboardView({ navigate }: { navigate: (route: Route) => void }
         </div>
 
         {/* ---------------------------- Right rail --------------------------- */}
-        <div className="flex flex-col gap-5">
+        <div className="col-12 col-lg-5 d-flex flex-column gap-5">
           <BrainDump />
 
           <Card>

@@ -1,4 +1,9 @@
+/* El Grid System vive en src/styles/grid.css (subconjunto vendorizado de
+   Bootstrap, sin !important para no invertir la prioridad de las capas). */
+@layer vendor;
+
 @import "tailwindcss";
+@import "./styles/grid.css";
 
 /* ============================================================================
    MindStudy — "Cuaderno de estudio"
