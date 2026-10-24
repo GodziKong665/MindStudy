@@ -1,0 +1,36 @@
+# Cabeceras de seguridad — Netlify y Cloudflare Pages leen este archivo.
+# Vite lo copia tal cual a dist/ porque vive en public/.
+#
+# Si desplegás en Vercel, traducí estas reglas a vercel.json.
+# GitHub Pages IGNORA este archivo: ahí no podés fijar cabeceras.
+
+/*
+  # --- Cabeceras activas (bajo riesgo de romper nada) ---
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), camera=(), microphone=(), payment=(), usb=(), interest-cohort=()
+  X-Frame-Options: DENY
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+
+  # --- CSP en modo REPORT-ONLY a propósito ---
+  #
+  # Una CSP mal calibrada no "protege menos": rompe la app entera (pantalla en
+  # blanco, estilos sin aplicar). Como no se puede verificar en un navegador
+  # desde el repo, se despliega primero en observación.
+  #
+  # Procedimiento para activarla:
+  #   1. Desplegá así y abrí la app con la consola abierta.
+  #   2. Navegá TODAS las secciones, tocá el temporizador, el sonido, las tarjetas.
+  #   3. Si no aparece ningún "Refused to load" / "violates", hacé el cambio de
+  #      abajo: renombrá la cabecera quitando "-Report-Only".
+  #
+  # Nota sobre 'unsafe-inline' en style-src: React emite atributos style="..."
+  # en varios componentes (anillos, charts, escenas). Sin 'unsafe-inline' para
+  # estilos, el layout se rompe. Es un compromiso consciente, no un olvido.
+  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.scdn.co https://*.spotifycdn.com; connect-src 'self' https://api.spotify.com https://accounts.spotify.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests
+
+# Los assets con hash de Vite son inmutables: cache agresivo y seguro.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
