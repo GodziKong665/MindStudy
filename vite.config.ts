@@ -22,6 +22,7 @@ export default defineConfig({
         calculator: page('calculadora.html'),
         cards: page('tarjetas.html'),
         garden: page('jardin.html'),
+        contact: page('contacto.html'),
       },
     },
   },

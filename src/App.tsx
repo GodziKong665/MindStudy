@@ -10,6 +10,7 @@ import { PlannerView } from './views/Planner'
 import { CalculatorView } from './views/Calculator'
 import { CardsView } from './views/Cards'
 import { GardenView } from './views/Garden'
+import { ContactView } from './views/Contact'
 
 export default function App({ initialRoute }: { initialRoute?: Route }) {
   const [route, navigate] = useRouter(initialRoute ?? routeFromDocument())
@@ -46,6 +47,7 @@ export default function App({ initialRoute }: { initialRoute?: Route }) {
       {route === 'calculator' && <CalculatorView />}
       {route === 'cards' && <CardsView />}
       {route === 'garden' && <GardenView />}
+      {route === 'contact' && <ContactView />}
     </AppShell>
   )
 }

@@ -158,9 +158,14 @@ export function AppShell({
       </main>
 
       <footer className="container mx-auto w-full max-w-6xl px-5 pb-8 pt-2 sm:px-7">
-        <p className="border-t border-line pt-4 text-[0.6875rem] tracking-wide text-ink-3">
-          MindStudy · un bloque a la vez
-        </p>
+        <div className="d-flex flex-wrap justify-content-between align-items-center gap-2 border-t border-line pt-4">
+          <p className="text-[0.6875rem] tracking-wide text-ink-3">
+            MindStudy · un bloque a la vez
+          </p>
+          <a href="contacto.html" className="text-[0.6875rem] text-ink-2 hover:text-ink">
+            Contacto
+          </a>
+        </div>
       </footer>
     </div>
   )

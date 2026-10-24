@@ -8,6 +8,7 @@ export const ROUTES = [
   'calculator',
   'cards',
   'garden',
+  'contact',
 ] as const
 
 export type Route = (typeof ROUTES)[number]
@@ -25,6 +26,7 @@ export const ROUTE_TO_PAGE: Record<Route, string> = {
   calculator: 'calculadora.html',
   cards: 'tarjetas.html',
   garden: 'jardin.html',
+  contact: 'contacto.html',
 }
 
 /** La página declara qué vista monta mediante data-route en #root. */
