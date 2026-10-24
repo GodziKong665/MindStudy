@@ -3,6 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import App from '../../App'
 import { actions } from '../store'
+import type { Route } from '../router'
 
 /** jsdom ships no matchMedia; the theme bootstrap probes for it. */
 beforeEach(() => {
@@ -27,16 +28,22 @@ beforeEach(() => {
 
 afterEach(() => {
   cleanup()
-  window.location.hash = ''
 })
 
-const ROUTES = ['dashboard', 'focus', 'music', 'planner', 'calculator', 'cards', 'garden'] as const
+const ROUTES: Route[] = [
+  'dashboard',
+  'focus',
+  'music',
+  'planner',
+  'calculator',
+  'cards',
+  'garden',
+]
 
 describe('Intro', () => {
   it('opens with the story and enters the app on Empezar', () => {
     actions.replayIntro()
-    window.location.hash = '#/dashboard'
-    render(<App />)
+    render(<App initialRoute="dashboard" />)
 
     expect(screen.getByText(/el origen/i)).toBeTruthy()
     // El dashboard todavía no existe: la historia es la puerta de entrada.
@@ -52,14 +59,14 @@ describe('Intro', () => {
 
   it('can be skipped straight into the app', () => {
     actions.replayIntro()
-    render(<App />)
+    render(<App initialRoute="dashboard" />)
     fireEvent.click(screen.getByRole('button', { name: /saltar/i }))
     expect(screen.getByText('Tu día')).toBeTruthy()
   })
 
   it('walks backwards between scenes', () => {
     actions.replayIntro()
-    render(<App />)
+    render(<App initialRoute="dashboard" />)
     fireEvent.click(screen.getByRole('button', { name: /siguiente/i }))
     fireEvent.click(screen.getByRole('button', { name: /atrás/i }))
     expect(screen.getByText(/el origen/i)).toBeTruthy()
@@ -68,16 +75,14 @@ describe('Intro', () => {
 
 describe('App smoke', () => {
   it('mounts the dashboard without throwing', () => {
-    window.location.hash = '#/dashboard'
-    render(<App />)
+    render(<App initialRoute="dashboard" />)
     expect(screen.getByText('Tu día')).toBeTruthy()
     expect(screen.getByRole('button', { name: /empezar un bloque/i })).toBeTruthy()
   })
 
-  it('renders every route with real content', () => {
+  it('renders every page with real content', () => {
     for (const route of ROUTES) {
-      window.location.hash = `#/${route}`
-      const { container, unmount } = render(<App />)
+      const { container, unmount } = render(<App initialRoute={route} />)
       const heading = container.querySelector('h1')
       expect(heading, `route "${route}" rendered no heading`).not.toBeNull()
       expect((heading?.textContent ?? '').trim().length).toBeGreaterThan(0)
@@ -85,9 +90,16 @@ describe('App smoke', () => {
     }
   })
 
+  it('exposes the menu as real links between pages', () => {
+    render(<App initialRoute="dashboard" />)
+    // jsdom no aplica CSS, así que las dos navs (escritorio y móvil) cuentan.
+    const focusLinks = screen.getAllByRole('link', { name: /enfoque/i })
+    expect(focusLinks.length).toBeGreaterThan(0)
+    expect(focusLinks[0].getAttribute('href')).toBe('enfoque.html')
+  })
+
   it('toggles the theme class on the document root', () => {
-    window.location.hash = '#/dashboard'
-    render(<App />)
+    render(<App initialRoute="dashboard" />)
 
     const before = document.documentElement.classList.contains('dark')
     fireEvent.click(screen.getByLabelText(/cambiar a modo/i))
@@ -95,8 +107,7 @@ describe('App smoke', () => {
   })
 
   it('starts every gamification metric at zero with no sessions', () => {
-    window.location.hash = '#/dashboard'
-    render(<App />)
+    render(<App initialRoute="dashboard" />)
     // Racha, XP y jardín se derivan de `sessions`: sin sesiones, todo en cero.
     expect(screen.getByText(/arrancá hoy/i)).toBeTruthy()
   })
@@ -104,22 +115,18 @@ describe('App smoke', () => {
 
 describe('Enfoque: dos capas', () => {
   it('opens in the normal focus view, inside the shell', () => {
-    window.location.hash = '#/focus'
-    render(<App />)
+    render(<App initialRoute="focus" />)
 
     expect(screen.getByRole('button', { name: /pantalla completa/i })).toBeTruthy()
-    // jsdom no aplica CSS, así que las dos navs (escritorio y móvil) cuentan.
-    expect(screen.getAllByRole('button', { name: /^dashboard$/i }).length).toBeGreaterThan(0)
+    expect(screen.getAllByRole('link', { name: /dashboard/i }).length).toBeGreaterThan(0)
     expect(screen.getByRole('heading', { level: 1 })).toBeTruthy()
   })
 
   it('enters the immersive layer and leaves it with Escape', () => {
-    window.location.hash = '#/focus'
-    render(<App />)
+    render(<App initialRoute="focus" />)
 
     fireEvent.click(screen.getByRole('button', { name: /pantalla completa/i }))
-    const close = screen.getByRole('button', { name: /volver al enfoque normal/i })
-    expect(close).toBeTruthy()
+    expect(screen.getByRole('button', { name: /volver al enfoque normal/i })).toBeTruthy()
 
     fireEvent.keyDown(window, { key: 'Escape' })
 
@@ -129,19 +136,16 @@ describe('Enfoque: dos capas', () => {
   })
 
   it('does not leave the focus view when Escape is pressed in the normal layer', () => {
-    window.location.hash = '#/focus'
-    render(<App />)
+    render(<App initialRoute="focus" />)
 
     fireEvent.keyDown(window, { key: 'Escape' })
 
-    // Seguimos en Enfoque: Esc solo cierra la capa inmersiva.
     expect(screen.getByRole('button', { name: /pantalla completa/i })).toBeTruthy()
     expect(screen.queryByText('Tu día')).toBeNull()
   })
 
   it('toggles the countdown with Space', () => {
-    window.location.hash = '#/focus'
-    render(<App />)
+    render(<App initialRoute="focus" />)
 
     expect(screen.getByRole('button', { name: /empezar/i })).toBeTruthy()
     fireEvent.keyDown(window, { code: 'Space', key: ' ' })

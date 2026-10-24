@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { AppShell } from './components/AppShell'
-import { useRoute } from './lib/router'
+import { routeFromDocument, useRouter, type Route } from './lib/router'
 import { actions, useAppState } from './lib/store'
 import { Intro } from './views/Intro'
 import { DashboardView } from './views/Dashboard'
@@ -11,8 +11,8 @@ import { CalculatorView } from './views/Calculator'
 import { CardsView } from './views/Cards'
 import { GardenView } from './views/Garden'
 
-export default function App() {
-  const [route, navigate] = useRoute()
+export default function App({ initialRoute }: { initialRoute?: Route }) {
+  const [route, navigate] = useRouter(initialRoute ?? routeFromDocument())
   const state = useAppState()
   const { theme } = state
 
@@ -21,23 +21,24 @@ export default function App() {
   }, [theme])
 
   /**
-   * Spotify vuelve a `/` con `?code=…`, así que aterrizaríamos en el dashboard.
-   * Si hay un callback pendiente, mandamos al usuario a Música, donde el panel
-   * completa el intercambio.
+   * Spotify vuelve con `?code=…` sobre la página donde se inició el login.
+   * Si el callback cae en otra sección, lo llevamos a Música conservando la query.
    */
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
-    if (params.has('code') || params.has('error')) navigate('music')
-  }, [navigate])
+    if (!params.has('code') && !params.has('error')) return
+    if (route === 'music') return
+    window.location.replace(`musica.html${window.location.search}`)
+  }, [route])
 
-  // La historia es la puerta de entrada: nadie debería aterrizar en un dashboard
+  // La historia es la puerta de entrada: nadie debería aterrizar en el dashboard
   // sin saber qué es lo que está mirando.
   if (!state.introSeen) {
     return <Intro onFinish={actions.completeIntro} />
   }
 
   return (
-    <AppShell route={route} navigate={navigate}>
+    <AppShell route={route}>
       {route === 'dashboard' && <DashboardView navigate={navigate} />}
       {route === 'focus' && <FocusView />}
       {route === 'music' && <MusicView />}

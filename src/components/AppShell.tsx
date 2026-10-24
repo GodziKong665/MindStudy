@@ -16,7 +16,7 @@ import {
 import type { ComponentType, ReactNode } from 'react'
 import { actions, useAppState } from '../lib/store'
 import { currentStreak, levelInfo, xpFor } from '../lib/progress'
-import type { Route } from '../lib/router'
+import { ROUTE_TO_PAGE, type Route } from '../lib/router'
 
 const NAV: { id: Route; label: string; icon: ComponentType<{ className?: string }> }[] = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -41,11 +41,9 @@ function Logo() {
 
 export function AppShell({
   route,
-  navigate,
   children,
 }: {
   route: Route
-  navigate: (route: Route) => void
   children: ReactNode
 }) {
   const state = useAppState()
@@ -68,10 +66,9 @@ export function AppShell({
             {NAV.map((item) => {
               const active = item.id === route
               return (
-                <button
+                <a
                   key={item.id}
-                  type="button"
-                  onClick={() => navigate(item.id)}
+                  href={ROUTE_TO_PAGE[item.id]}
                   aria-current={active ? 'page' : undefined}
                   className={clsx(
                     'relative flex h-full items-center gap-1.5 border-b-2 px-2.5 text-[0.8125rem] font-medium transition-colors duration-150',
@@ -82,7 +79,7 @@ export function AppShell({
                 >
                   <item.icon className="size-[0.95rem] shrink-0" />
                   {item.label}
-                </button>
+                </a>
               )
             })}
           </nav>
@@ -136,10 +133,9 @@ export function AppShell({
           {NAV.map((item) => {
             const active = item.id === route
             return (
-              <button
+              <a
                 key={item.id}
-                type="button"
-                onClick={() => navigate(item.id)}
+                href={ROUTE_TO_PAGE[item.id]}
                 aria-current={active ? 'page' : undefined}
                 className={clsx(
                   'flex shrink-0 items-center gap-1.5 px-3 py-2.5 text-xs font-medium transition-colors',
@@ -150,7 +146,7 @@ export function AppShell({
               >
                 <item.icon className="size-3.5" />
                 {item.label}
-              </button>
+              </a>
             )
           })}
         </nav>
