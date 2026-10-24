@@ -215,9 +215,9 @@ export function PlannerView() {
         }
       />
 
-      <div className="grid gap-5 lg:grid-cols-[1fr_1.15fr]">
+      <div className="row">
         {/* ------------------------- Left: capture + matrix ------------------------ */}
-        <div className="flex min-w-0 flex-col gap-5">
+        <div className="col-12 col-lg-6 d-flex flex-column min-w-0 gap-5">
           <Card>
             <SectionHead
               title="Nueva tarea"
@@ -373,7 +373,7 @@ export function PlannerView() {
         </div>
 
         {/* ---------------------------- Right: time grid --------------------------- */}
-        <div className="min-w-0">
+        <div className="col-12 col-lg-6 min-w-0">
           <Card className="flex flex-col lg:sticky lg:top-6">
             <SectionHead
               title="Bloques de hoy"

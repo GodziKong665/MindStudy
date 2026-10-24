@@ -511,9 +511,9 @@ export function CalculatorView() {
         }
       />
 
-      <div className="grid gap-5 xl:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
+      <div className="row">
         {/* ------------------------------ Inputs ----------------------------- */}
-        <div className="flex flex-col gap-5">
+        <div className="col-12 col-xl-6 d-flex flex-column gap-5">
           <Card>
             <SectionHead
               title="Examen y ritmo"
@@ -595,7 +595,7 @@ export function CalculatorView() {
         </div>
 
         {/* ------------------------------ Results ---------------------------- */}
-        <div className="flex flex-col gap-5">
+        <div className="col-12 col-xl-6 d-flex flex-column gap-5">
           {plan ? (
             <>
               <PlanSummary plan={plan} dailyMinutes={studyPlan.dailyMinutes} />

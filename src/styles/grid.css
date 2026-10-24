@@ -85,6 +85,14 @@
     .col-lg-12 { width: 100%; }
   }
 
+  /* xl — 1280px (alineado con el breakpoint xl de Tailwind) */
+  @media (min-width: 1280px) {
+    .col-xl-5 { width: calc((100% - var(--row-gap)) * 5 / 12); }
+    .col-xl-6 { width: calc((100% - var(--row-gap)) / 2); }
+    .col-xl-7 { width: calc((100% - var(--row-gap)) * 7 / 12); }
+    .col-xl-12 { width: 100%; }
+  }
+
   /* ------------------------------ Flexbox ------------------------------- */
   .d-flex { display: flex; }
   .d-inline-flex { display: inline-flex; }

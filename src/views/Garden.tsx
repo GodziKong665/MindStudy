@@ -211,8 +211,8 @@ export function GardenView() {
       </Card>
 
       {/* ---------------------------- Week & history -------------------------- */}
-      <div className="mt-5 grid items-start gap-5 lg:grid-cols-2">
-        <Card>
+      <div className="row mt-5 items-start">
+        <Card className="col-12 col-lg-6">
           <SectionHead
             title="Últimos 7 días"
             subtitle={`${formatDuration(weekTotal)} de foco acumulado`}
@@ -226,7 +226,7 @@ export function GardenView() {
           </div>
         </Card>
 
-        <Card>
+        <Card className="col-12 col-lg-6">
           <SectionHead title="Historial reciente" subtitle="Tus últimos bloques de foco" />
           <ul className="grid gap-1 sm:grid-cols-2 sm:gap-x-4">
             {recentSessions.map((session) => (

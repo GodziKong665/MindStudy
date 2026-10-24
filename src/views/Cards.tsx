@@ -596,9 +596,9 @@ export function CardsView() {
         </Card>
       </div>
 
-      <div className="grid gap-5 lg:grid-cols-[0.85fr_1.15fr]">
+      <div className="row">
         {/* ----------------------------- Deck list ---------------------------- */}
-        <Card>
+        <Card className="col-12 col-lg-5">
           <SectionHead title="Tus mazos" subtitle="Elegí uno para abrirlo" />
 
           <form onSubmit={submitDeck} className="mb-4 flex items-center gap-2">
@@ -656,7 +656,7 @@ export function CardsView() {
         </Card>
 
         {/* ---------------------------- Deck detail --------------------------- */}
-        <Card>
+        <Card className="col-12 col-lg-7">
           {selectedDeck ? (
             <div className="flex flex-col">
               <div className="flex flex-wrap items-start justify-between gap-3">
