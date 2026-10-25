@@ -328,6 +328,23 @@ export const SPOTIFY_SEARCHES = [
   { label: 'Jazz de fondo', query: 'jazz study', hint: 'Café y trabajo' },
 ]
 
+/**
+ * Playlist destacada. Se muestra con el reproductor oficial de Spotify
+ * (iframe de open.spotify.com), que no necesita API, ni token, ni login:
+ * el usuario escucha desde su propia cuenta, gratis o Premium.
+ */
+export const FEATURED_PLAYLIST = {
+  id: '7H8fXJlcrJ4fxL8eJwT0nm',
+  name: 'Relaxing Minecraft Music',
+  author: 'CNNBailey y Steve',
+  tracks: 300,
+  url: 'https://open.spotify.com/playlist/7H8fXJlcrJ4fxL8eJwT0nm',
+}
+
+export function playlistEmbedUrl(id: string): string {
+  return `https://open.spotify.com/embed/playlist/${id}?utm_source=generator`
+}
+
 export function openSpotifySearch(query: string): void {
   window.open(`https://open.spotify.com/search/${encodeURIComponent(query)}`, '_blank', 'noopener')
 }

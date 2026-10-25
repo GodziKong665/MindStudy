@@ -2,10 +2,12 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest'
 import {
   SCOPES,
+  FEATURED_PLAYLIST,
   buildAuthorizeUrl,
   challengeFor,
   loadTokens,
   parseCallback,
+  playlistEmbedUrl,
   randomString,
   saveTokens,
   clearTokens,
@@ -68,6 +70,22 @@ describe('buildAuthorizeUrl', () => {
     expect(url.searchParams.get('state')).toBe('state-value')
     expect(url.searchParams.get('redirect_uri')).toBe('http://127.0.0.1:5173/')
     expect(url.searchParams.get('scope')).toBe(SCOPES.join(' '))
+  })
+})
+
+describe('playlist embebida', () => {
+  it('construye la URL oficial de embed sin parametros de autenticacion', () => {
+    const url = playlistEmbedUrl('7H8fXJlcrJ4fxL8eJwT0nm')
+    expect(url).toBe(
+      'https://open.spotify.com/embed/playlist/7H8fXJlcrJ4fxL8eJwT0nm?utm_source=generator',
+    )
+    expect(url).not.toMatch(/token|auth|client_id/i)
+  })
+
+  it('la playlist destacada es la de Relaxing Minecraft Music', () => {
+    expect(FEATURED_PLAYLIST.id).toBe('7H8fXJlcrJ4fxL8eJwT0nm')
+    expect(FEATURED_PLAYLIST.name).toBe('Relaxing Minecraft Music')
+    expect(FEATURED_PLAYLIST.tracks).toBe(300)
   })
 })
 

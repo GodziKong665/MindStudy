@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { ExternalLink, LogOut, Music4, Plug } from 'lucide-react'
 import {
+  FEATURED_PLAYLIST,
   SPOTIFY_SEARCHES,
   beginAuth,
   cleanCallbackUrl,
@@ -11,6 +12,7 @@ import {
   loadTokens,
   openSpotifySearch,
   parseCallback,
+  playlistEmbedUrl,
   startPlayback,
   validAccessToken,
   type SpotifyProfile,
@@ -112,8 +114,8 @@ export function SpotifyPanel() {
   return (
     <Card>
       <SectionHead
-        title="Abrir en Spotify"
-        subtitle="Funciona con cuenta gratuita: abre la búsqueda en tu app o en la web."
+        title="Spotify"
+        subtitle="Una playlist destacada para empezar, y accesos rápidos."
         action={
           configured && !profile ? (
             <button
@@ -161,7 +163,40 @@ export function SpotifyPanel() {
         </div>
       )}
 
-      <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+      {/* Reproductor oficial de Spotify: sin API, sin token, sin login propio. */}
+      <div className="mb-4">
+        <div className="mb-2 d-flex flex-wrap justify-content-between align-items-baseline gap-2">
+          <div>
+            <p className="text-[0.8125rem] font-semibold text-ink">{FEATURED_PLAYLIST.name}</p>
+            <p className="text-[0.625rem] text-ink-3">
+              {FEATURED_PLAYLIST.author} · {FEATURED_PLAYLIST.tracks} canciones · música relajante de Minecraft
+            </p>
+          </div>
+          <a
+            href={FEATURED_PLAYLIST.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="shrink-0 text-[0.6875rem] font-medium text-primary-text hover:underline"
+          >
+            Abrir en Spotify
+          </a>
+        </div>
+        <iframe
+          title={`Spotify: ${FEATURED_PLAYLIST.name}`}
+          src={playlistEmbedUrl(FEATURED_PLAYLIST.id)}
+          width="100%"
+          height={352}
+          loading="lazy"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          className="rounded-[6px] border border-line"
+        />
+      </div>
+
+      <div className="border-t border-line pt-3">
+        <p className="mb-2 text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-ink-3">
+          Abrir en tu Spotify · funciona con cuenta gratuita
+        </p>
+        <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
         {SPOTIFY_SEARCHES.map((search) => (
           <button
             key={search.query}
@@ -180,6 +215,7 @@ export function SpotifyPanel() {
             </span>
           </button>
         ))}
+        </div>
       </div>
 
       {message && (
