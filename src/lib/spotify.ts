@@ -329,9 +329,10 @@ export const SPOTIFY_SEARCHES = [
 ]
 
 /**
- * Playlist destacada. Se muestra con el reproductor oficial de Spotify
- * (iframe de open.spotify.com), que no necesita API, ni token, ni login:
- * el usuario escucha desde su propia cuenta, gratis o Premium.
+ * Playlist destacada. Se muestra como tarjeta propia (no como iframe) para que
+ * el color y el alto queden bajo el control del diseño: el reproductor de
+ * Spotify impone su verde de marca y deja un bloque muerto cuando el contenido
+ * es más corto que el iframe.
  */
 export const FEATURED_PLAYLIST = {
   id: '7H8fXJlcrJ4fxL8eJwT0nm',
@@ -339,12 +340,7 @@ export const FEATURED_PLAYLIST = {
   author: 'CNNBailey y Steve',
   tracks: 300,
   url: 'https://open.spotify.com/playlist/7H8fXJlcrJ4fxL8eJwT0nm',
-}
-
-export function playlistEmbedUrl(id: string, dark = true): string {
-  // theme=0 oscuro · theme=1 claro. Es lo único que el embed permite cambiar:
-  // el color de la cabecera lo fija Spotify por playlist, no se puede alterar.
-  return `https://open.spotify.com/embed/playlist/${id}?utm_source=generator&theme=${dark ? 0 : 1}`
+  cover: 'https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da84e66aa93762dfe7f76e94bf63',
 }
 
 export function openSpotifySearch(query: string): void {

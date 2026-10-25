@@ -12,12 +12,10 @@ import {
   loadTokens,
   openSpotifySearch,
   parseCallback,
-  playlistEmbedUrl,
   startPlayback,
   validAccessToken,
   type SpotifyProfile,
 } from '../lib/spotify'
-import { useAppState } from '../lib/store'
 import { Card, SectionHead } from './ui'
 
 type Status = 'idle' | 'working' | 'connected' | 'error'
@@ -28,7 +26,6 @@ type Status = 'idle' | 'working' | 'connected' | 'error'
  * ni una advertencia, porque esto está al lado de un lugar para descansar.
  */
 export function SpotifyPanel() {
-  const { theme } = useAppState()
   const configured = isConfigured()
   const [status, setStatus] = useState<Status>('idle')
   const [profile, setProfile] = useState<SpotifyProfile | null>(null)
@@ -165,40 +162,42 @@ export function SpotifyPanel() {
         </div>
       )}
 
-      {/* Reproductor oficial de Spotify: sin API, sin token, sin login propio. */}
+      {/* Playlist destacada como tarjeta propia: sin iframe, sin verde de marca
+          y sin bloque muerto. La portada es la imagen oficial de la playlist. */}
       <div className="mb-4">
-        <div className="mb-2 d-flex flex-wrap justify-content-between align-items-center gap-2">
-          <div>
-            <p className="text-[0.8125rem] font-semibold text-ink">{FEATURED_PLAYLIST.name}</p>
-            <p className="text-[0.625rem] text-ink-3">
-              {FEATURED_PLAYLIST.author} · {FEATURED_PLAYLIST.tracks} canciones · música relajante de Minecraft
-            </p>
-          </div>
-          {/* La esquina: abre la playlist en la app o la web de Spotify, donde
-              la reproducción sí continúa mientras navegás MindStudy. */}
-          <a
-            href={FEATURED_PLAYLIST.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn-outline shrink-0 gap-1.5 px-2.5 py-1 text-[0.6875rem]"
-            title="Seguí escuchando mientras navegás el sitio"
-          >
+        <a
+          href={FEATURED_PLAYLIST.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group d-flex align-items-center gap-3 rounded-md border border-line bg-surface-3 p-3 transition-colors hover:border-line-strong hover:bg-surface-2"
+        >
+          <img
+            src={FEATURED_PLAYLIST.cover}
+            alt={`Portada de la playlist ${FEATURED_PLAYLIST.name}`}
+            width={64}
+            height={64}
+            loading="lazy"
+            className="size-16 shrink-0 rounded-sm object-cover"
+          />
+          <span className="min-w-0 flex-1">
+            <span className="block truncate text-[0.875rem] font-semibold text-ink">
+              {FEATURED_PLAYLIST.name}
+            </span>
+            <span className="block truncate text-[0.6875rem] text-ink-3">
+              {FEATURED_PLAYLIST.author} · {FEATURED_PLAYLIST.tracks} canciones
+            </span>
+            <span className="mt-0.5 block truncate text-[0.625rem] text-ink-3">
+              Música relajante de Minecraft
+            </span>
+          </span>
+          <span className="btn btn-outline shrink-0 gap-1.5 px-2.5 py-1 text-[0.6875rem]">
             <ExternalLink className="size-3" />
             Abrir en Spotify
-          </a>
-        </div>
-        <iframe
-          title={`Spotify: ${FEATURED_PLAYLIST.name}`}
-          src={playlistEmbedUrl(FEATURED_PLAYLIST.id, theme === 'dark')}
-          width="100%"
-          height={352}
-          loading="lazy"
-          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-          className="rounded-[6px] border border-line"
-        />
+          </span>
+        </a>
         <p className="mt-2 text-[0.625rem] leading-relaxed text-ink-3">
-          Para que la música siga sonando al cambiar de sección, abrila en Spotify: el
-          reproductor incrustado se detiene cuando la página se recarga.
+          Se abre en tu cuenta de Spotify, así la música sigue sonando mientras
+          navegás las demás secciones.
         </p>
       </div>
 
