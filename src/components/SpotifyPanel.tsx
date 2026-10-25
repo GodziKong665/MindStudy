@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { ExternalLink, LogOut, Music4, Plug } from 'lucide-react'
+import { ExternalLink, LogOut, Music4, Play, Plug } from 'lucide-react'
 import {
   FEATURED_PLAYLIST,
   SPOTIFY_SEARCHES,
@@ -169,16 +169,25 @@ export function SpotifyPanel() {
           href={FEATURED_PLAYLIST.url}
           target="_blank"
           rel="noopener noreferrer"
+          aria-label={`Reproducir ${FEATURED_PLAYLIST.name} en Spotify`}
           className="group d-flex align-items-center gap-3 rounded-md border border-line bg-surface-3 p-3 transition-colors hover:border-line-strong hover:bg-surface-2"
         >
-          <img
-            src={FEATURED_PLAYLIST.cover}
-            alt={`Portada de la playlist ${FEATURED_PLAYLIST.name}`}
-            width={64}
-            height={64}
-            loading="lazy"
-            className="size-16 shrink-0 rounded-sm object-cover"
-          />
+          <span className="relative shrink-0">
+            <img
+              src={FEATURED_PLAYLIST.cover}
+              alt={`Portada de la playlist ${FEATURED_PLAYLIST.name}`}
+              width={64}
+              height={64}
+              loading="lazy"
+              className="size-16 rounded-sm object-cover"
+            />
+            {/* Botón de play: abre Spotify, que es donde la lista suena. */}
+            <span className="absolute inset-0 grid place-items-center rounded-sm bg-ink/25 transition-colors group-hover:bg-ink/40">
+              <span className="grid size-8 place-items-center rounded-full bg-primary text-primary-fg shadow-[0_2px_10px_rgba(0,0,0,0.45)]">
+                <Play className="size-4 translate-x-[1px]" fill="currentColor" />
+              </span>
+            </span>
+          </span>
           <span className="min-w-0 flex-1">
             <span className="block truncate text-[0.875rem] font-semibold text-ink">
               {FEATURED_PLAYLIST.name}
