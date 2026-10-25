@@ -75,11 +75,16 @@ describe('buildAuthorizeUrl', () => {
 
 describe('playlist embebida', () => {
   it('construye la URL oficial de embed sin parametros de autenticacion', () => {
-    const url = playlistEmbedUrl('7H8fXJlcrJ4fxL8eJwT0nm')
-    expect(url).toBe(
-      'https://open.spotify.com/embed/playlist/7H8fXJlcrJ4fxL8eJwT0nm?utm_source=generator',
+    const dark = playlistEmbedUrl('7H8fXJlcrJ4fxL8eJwT0nm', true)
+    expect(dark).toBe(
+      'https://open.spotify.com/embed/playlist/7H8fXJlcrJ4fxL8eJwT0nm?utm_source=generator&theme=0',
     )
-    expect(url).not.toMatch(/token|auth|client_id/i)
+    expect(dark).not.toMatch(/token|auth|client_id/i)
+  })
+
+  it('cambia el tema del reproductor segun el tema de la pagina', () => {
+    expect(playlistEmbedUrl('abc', true)).toContain('theme=0')
+    expect(playlistEmbedUrl('abc', false)).toContain('theme=1')
   })
 
   it('la playlist destacada es la de Relaxing Minecraft Music', () => {

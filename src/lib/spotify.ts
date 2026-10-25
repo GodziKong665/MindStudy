@@ -341,8 +341,10 @@ export const FEATURED_PLAYLIST = {
   url: 'https://open.spotify.com/playlist/7H8fXJlcrJ4fxL8eJwT0nm',
 }
 
-export function playlistEmbedUrl(id: string): string {
-  return `https://open.spotify.com/embed/playlist/${id}?utm_source=generator`
+export function playlistEmbedUrl(id: string, dark = true): string {
+  // theme=0 oscuro · theme=1 claro. Es lo único que el embed permite cambiar:
+  // el color de la cabecera lo fija Spotify por playlist, no se puede alterar.
+  return `https://open.spotify.com/embed/playlist/${id}?utm_source=generator&theme=${dark ? 0 : 1}`
 }
 
 export function openSpotifySearch(query: string): void {

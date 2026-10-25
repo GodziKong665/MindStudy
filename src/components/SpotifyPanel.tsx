@@ -17,6 +17,7 @@ import {
   validAccessToken,
   type SpotifyProfile,
 } from '../lib/spotify'
+import { useAppState } from '../lib/store'
 import { Card, SectionHead } from './ui'
 
 type Status = 'idle' | 'working' | 'connected' | 'error'
@@ -27,6 +28,7 @@ type Status = 'idle' | 'working' | 'connected' | 'error'
  * ni una advertencia, porque esto está al lado de un lugar para descansar.
  */
 export function SpotifyPanel() {
+  const { theme } = useAppState()
   const configured = isConfigured()
   const [status, setStatus] = useState<Status>('idle')
   const [profile, setProfile] = useState<SpotifyProfile | null>(null)
@@ -165,31 +167,39 @@ export function SpotifyPanel() {
 
       {/* Reproductor oficial de Spotify: sin API, sin token, sin login propio. */}
       <div className="mb-4">
-        <div className="mb-2 d-flex flex-wrap justify-content-between align-items-baseline gap-2">
+        <div className="mb-2 d-flex flex-wrap justify-content-between align-items-center gap-2">
           <div>
             <p className="text-[0.8125rem] font-semibold text-ink">{FEATURED_PLAYLIST.name}</p>
             <p className="text-[0.625rem] text-ink-3">
               {FEATURED_PLAYLIST.author} · {FEATURED_PLAYLIST.tracks} canciones · música relajante de Minecraft
             </p>
           </div>
+          {/* La esquina: abre la playlist en la app o la web de Spotify, donde
+              la reproducción sí continúa mientras navegás MindStudy. */}
           <a
             href={FEATURED_PLAYLIST.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="shrink-0 text-[0.6875rem] font-medium text-primary-text hover:underline"
+            className="btn btn-outline shrink-0 gap-1.5 px-2.5 py-1 text-[0.6875rem]"
+            title="Seguí escuchando mientras navegás el sitio"
           >
+            <ExternalLink className="size-3" />
             Abrir en Spotify
           </a>
         </div>
         <iframe
           title={`Spotify: ${FEATURED_PLAYLIST.name}`}
-          src={playlistEmbedUrl(FEATURED_PLAYLIST.id)}
+          src={playlistEmbedUrl(FEATURED_PLAYLIST.id, theme === 'dark')}
           width="100%"
           height={352}
           loading="lazy"
           allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
           className="rounded-[6px] border border-line"
         />
+        <p className="mt-2 text-[0.625rem] leading-relaxed text-ink-3">
+          Para que la música siga sonando al cambiar de sección, abrila en Spotify: el
+          reproductor incrustado se detiene cuando la página se recarga.
+        </p>
       </div>
 
       <div className="border-t border-line pt-3">
