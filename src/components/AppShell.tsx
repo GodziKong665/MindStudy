@@ -13,6 +13,7 @@ import {
   Timer,
   Zap,
 } from 'lucide-react'
+import { useEffect, useRef } from 'react'
 import type { ComponentType, ReactNode } from 'react'
 import { actions, useAppState } from '../lib/store'
 import { currentStreak, levelInfo, xpFor } from '../lib/progress'
@@ -47,6 +48,22 @@ export function AppShell({
   children: ReactNode
 }) {
   const state = useAppState()
+  const mobileNavRef = useRef<HTMLElement | null>(null)
+  const activeNavRef = useRef<HTMLAnchorElement | null>(null)
+
+  /**
+   * En móvil el menú es una fila con scroll horizontal que siempre arranca en
+   * la posición 0. Sin esto, al entrar a Jardín el menú sigue mostrando el
+   * inicio y no hay forma de saber en qué sección estás.
+   */
+  useEffect(() => {
+    const nav = mobileNavRef.current
+    const active = activeNavRef.current
+    if (!nav || !active) return
+    const target = active.offsetLeft - nav.clientWidth / 2 + active.clientWidth / 2
+    nav.scrollLeft = Math.max(0, target)
+  }, [route])
+
   const streak = currentStreak(state.sessions)
   const xp = xpFor(state.sessions, state.tasks.filter((t) => t.done).length)
   const level = levelInfo(xp)
@@ -127,6 +144,7 @@ export function AppShell({
 
         {/* --- Navegación horizontal (móvil, con scroll) --- */}
         <nav
+          ref={mobileNavRef}
           className="flex overflow-x-auto border-t border-line lg:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           aria-label="Navegación principal"
         >
@@ -135,13 +153,14 @@ export function AppShell({
             return (
               <a
                 key={item.id}
+                ref={active ? activeNavRef : undefined}
                 href={ROUTE_TO_PAGE[item.id]}
                 aria-current={active ? 'page' : undefined}
                 className={clsx(
-                  'flex shrink-0 items-center gap-1.5 px-3 py-2.5 text-xs font-medium transition-colors',
+                  'flex shrink-0 items-center gap-1.5 px-3 py-2.5 text-xs transition-colors',
                   active
-                    ? 'bg-primary-soft text-primary-text shadow-[inset_0_-2px_0_var(--ms-primary)]'
-                    : 'text-ink-3',
+                    ? 'bg-primary-soft font-semibold text-primary-text shadow-[inset_0_-2px_0_var(--ms-primary)]'
+                    : 'font-medium text-ink-3',
                 )}
               >
                 <item.icon className="size-3.5" />

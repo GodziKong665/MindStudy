@@ -98,6 +98,21 @@ describe('App smoke', () => {
     expect(focusLinks[0].getAttribute('href')).toBe('enfoque.html')
   })
 
+  it('marks the current page in the menu', () => {
+    render(<App initialRoute="garden" />)
+    const gardenLinks = screen.getAllByRole('link', { name: /jardín/i })
+    expect(gardenLinks.length).toBeGreaterThan(0)
+    gardenLinks.forEach((link) => {
+      expect(link.getAttribute('aria-current')).toBe('page')
+      expect(link.getAttribute('href')).toBe('jardin.html')
+    })
+
+    const otherLinks = screen.getAllByRole('link', { name: /dashboard/i })
+    otherLinks.forEach((link) => {
+      expect(link.getAttribute('aria-current')).toBeNull()
+    })
+  })
+
   it('toggles the theme class on the document root', () => {
     render(<App initialRoute="dashboard" />)
 
