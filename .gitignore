@@ -30,3 +30,6 @@ coverage/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Metadatos de herramientas locales (no forman parte del sitio)
+.atl/
