@@ -92,7 +92,7 @@ React 18 · TypeScript (strict) · Vite 6 · Tailwind CSS v4 · Vitest
 - **Sin archivos de audio.** Los cuatro paisajes ambientales (lluvia, ruido marrón, café, olas) se sintetizan con Web Audio API: cero peso de red y loops sin costura.
 - **El timer no deriva.** La cuenta regresiva se calcula contra un deadline absoluto, no decrementando un contador. Cambiar de pestaña no le roba segundos.
 - **Una sola fuente de verdad.** XP, nivel, racha, estadísticas y jardín se derivan de `sessions`. No hay contadores paralelos que se puedan desincronizar.
-- **`legacy/`** contiene la v1 estática original (HTML/CSS/JS con el flip clock), conservada intacta como referencia.
+- **`public/gato.jpg`** es la portada de la sección Música: 1000×1000 y 134 KB. Si falta, la escena cae a una ilustración vectorial.
 
 ## Riesgo
 
