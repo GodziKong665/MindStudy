@@ -113,6 +113,18 @@ describe('App smoke', () => {
     })
   })
 
+  it('registra una sesión manual desde el jardín', () => {
+    render(<App initialRoute="garden" />)
+    expect(screen.getByText(/todavía no hay nada plantado/i)).toBeTruthy()
+
+    const minutos = screen.getByLabelText(/minutos de la sesión/i)
+    fireEvent.change(minutos, { target: { value: '45' } })
+    fireEvent.click(screen.getByRole('button', { name: /registrar/i }))
+
+    // La sesión entra a la misma fuente de verdad: el jardín deja de estar vacío.
+    expect(screen.queryByText(/todavía no hay nada plantado/i)).toBeNull()
+  })
+
   it('toggles the theme class on the document root', () => {
     render(<App initialRoute="dashboard" />)
 

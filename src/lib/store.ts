@@ -81,7 +81,30 @@ export const actions = {
     })
   },
 
-  /* ----- tasks ----- */
+  /**
+   * Registra un bloque que ocurrió fuera de la app (estudiaste sin el timer).
+   * Es la misma fuente de verdad: alimenta XP, racha y jardín igual que una
+   * sesión medida.
+   */
+  addSessionAt(minutes: number, dateISO: string) {
+    if (minutes <= 0 || !dateISO) return
+    commit({
+      ...state,
+      sessions: [
+        ...state.sessions,
+        {
+          id: uid(),
+          modeId: 'custom',
+          minutes: Math.round(minutes),
+          // Mediodía local: evita que el uso horario corra la fecha un día.
+          completedAt: `${dateISO}T12:00:00.000`,
+        },
+      ],
+    })
+  },
+  removeSession(id: string) {
+    commit({ ...state, sessions: state.sessions.filter((session) => session.id !== id) })
+  },
   addTask(title: string, quadrant: QuadrantId = 'plan', estimateMin = 25) {
     const clean = title.trim()
     if (!clean) return
