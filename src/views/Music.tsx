@@ -154,13 +154,17 @@ export function MusicView() {
                   actions.setTimer({ volume })
                   ambientEngine.setVolume(volume)
                 }}
-                aria-label="Volumen de la música"
+                aria-label="Volumen de los paisajes sonoros de MindStudy"
                 className="h-1 w-full cursor-pointer appearance-none rounded-full bg-surface-2 accent-[var(--ms-primary)]"
               />
               <span className="num w-7 shrink-0 text-right text-[0.6875rem] text-ink-3">
                 {Math.round(timer.volume * 100)}
               </span>
             </div>
+            <p className="mt-2 text-[0.625rem] leading-relaxed text-ink-3">
+              Ajusta solo los paisajes de MindStudy. Spotify tiene su propio volumen,
+              en su app.
+            </p>
           </Card>
         </div>
 
