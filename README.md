@@ -44,7 +44,7 @@ La sección **Música** (`#/music`) tiene 16 paisajes sintetizados en tiempo rea
 
 ### La imagen del gato
 
-Guardá tu imagen como **`public/gato.png`**. Aparece sola. Si el archivo no existe, la app usa una ilustración vectorial de respaldo, así que no se rompe nada.
+Guardá tu imagen como **`public/gato.jpg`**. Aparece sola. Si el archivo no existe, la app usa una ilustración vectorial de respaldo, así que no se rompe nada.
 
 ### Conectar Spotify (opcional)
 

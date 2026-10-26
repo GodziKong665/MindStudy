@@ -2,10 +2,10 @@ import { useState } from 'react'
 import clsx from 'clsx'
 
 /**
- * Guardá tu imagen como `public/gato.png` y aparece sola, sin tocar código.
+ * Guardá tu imagen como `public/gato.jpg` y aparece sola, sin tocar código.
  * Si el archivo no existe todavía, cae a esta ilustración vectorial.
  */
-const CAT_IMAGE = '/gato.png'
+const CAT_IMAGE = '/gato.jpg'
 
 function CatFallback() {
   return (
