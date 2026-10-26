@@ -125,6 +125,19 @@ describe('App smoke', () => {
     expect(screen.queryByText(/todavía no hay nada plantado/i)).toBeNull()
   })
 
+  it('agrega un tema con el formulario activo y limpia el campo', () => {
+    render(<App initialRoute="calculator" />)
+
+    const nombre = screen.getByLabelText(/nombre del tema/i) as HTMLInputElement
+    fireEvent.change(nombre, { target: { value: 'Fotosíntesis' } })
+    fireEvent.click(screen.getByRole('button', { name: /^agregar$/i }))
+
+    expect(screen.getByText(/1 tema cargado/i)).toBeTruthy()
+    expect(screen.getByDisplayValue('Fotosíntesis')).toBeTruthy()
+    // El formulario queda listo para el siguiente, no con basura del anterior.
+    expect(nombre.value).toBe('')
+  })
+
   it('toggles the theme class on the document root', () => {
     render(<App initialRoute="dashboard" />)
 

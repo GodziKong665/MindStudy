@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
 import clsx from 'clsx'
 import {
   CalendarClock,
@@ -461,10 +461,29 @@ export function CalculatorView() {
     actions.setStudyPlan({ ...studyPlan, ...next })
   }
 
-  const addTopic = () => {
+  /**
+   * Formulario activo: se completa, se agrega y se limpia solo.
+   * Antes el botón creaba un tema vacío ("Tema sin nombre") y después había que
+   * ir a completarlo, que es el orden inverso al que espera cualquiera.
+   */
+  const [draft, setDraft] = useState({ name: '', weight: 3, baseMinutes: 60 })
+  const nameRef = useRef<HTMLInputElement>(null)
+
+  const submitTopic = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const name = draft.name.trim()
+    if (name.length < 2) {
+      nameRef.current?.focus()
+      return
+    }
     patch({
-      topics: [...studyPlan.topics, { id: makeId(), name: '', weight: 3, baseMinutes: 60 }],
+      topics: [
+        ...studyPlan.topics,
+        { id: makeId(), name, weight: draft.weight, baseMinutes: draft.baseMinutes },
+      ],
     })
+    setDraft({ name: '', weight: 3, baseMinutes: 60 })
+    nameRef.current?.focus()
   }
 
   const updateTopic = (id: string, next: Partial<StudyTopic>) => {
@@ -546,34 +565,70 @@ export function CalculatorView() {
               title="Temas"
               subtitle={
                 studyPlan.topics.length === 0
-                  ? 'Todavía sin temas.'
+                  ? 'Escribí el primero, elegí la dificultad y agregalo.'
                   : `${plural(studyPlan.topics.length, 'tema cargado', 'temas cargados')}.`
-              }
-              action={
-                <button
-                  type="button"
-                  onClick={addTopic}
-                  className="btn btn-outline shrink-0 text-xs"
-                >
-                  <Plus className="size-3.5" />
-                  Agregar
-                </button>
               }
             />
 
+            <form
+              onSubmit={submitTopic}
+              className="mb-4 rounded-md border border-line bg-surface-3 p-3"
+            >
+              <div className="d-flex flex-wrap align-items-end gap-2">
+                <label className="flex min-w-0 flex-1 flex-col gap-1">
+                  <span className="text-[0.625rem] text-ink-3">Tema</span>
+                  <input
+                    ref={nameRef}
+                    className="field"
+                    placeholder="Ej: Fotosíntesis"
+                    value={draft.name}
+                    onChange={(event) => setDraft({ ...draft, name: event.target.value })}
+                    aria-label="Nombre del tema"
+                  />
+                </label>
+                <label className="flex flex-col gap-1">
+                  <span className="text-[0.625rem] text-ink-3">Dificultad</span>
+                  <select
+                    className="field w-24"
+                    value={draft.weight}
+                    onChange={(event) =>
+                      setDraft({ ...draft, weight: Number(event.target.value) })
+                    }
+                    aria-label="Dificultad del tema"
+                  >
+                    {[1, 2, 3, 4, 5].map((n) => (
+                      <option key={n} value={n}>
+                        {n}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label className="flex flex-col gap-1">
+                  <span className="text-[0.625rem] text-ink-3">Min. base</span>
+                  <input
+                    type="number"
+                    min={5}
+                    max={600}
+                    step={5}
+                    className="field num w-24"
+                    value={draft.baseMinutes}
+                    onChange={(event) =>
+                      setDraft({ ...draft, baseMinutes: Number(event.target.value) })
+                    }
+                    aria-label="Minutos base del tema"
+                  />
+                </label>
+                <button type="submit" className="btn btn-primary shrink-0 text-xs">
+                  <Plus className="size-3.5" />
+                  Agregar
+                </button>
+              </div>
+            </form>
+
             {studyPlan.topics.length === 0 ? (
-              <EmptyState
-                compact
-                icon={ListChecks}
-                title="Sin temas todavía"
-                body="Agregá cada tema con sus minutos base. Después ajustás la dificultad y ves cómo cambia la carga."
-                action={
-                  <button type="button" onClick={addTopic} className="btn btn-primary text-xs">
-                    <Plus className="size-3.5" />
-                    Agregar el primero
-                  </button>
-                }
-              />
+              <p className="rounded-md border border-dashed border-line-strong bg-surface-3 px-4 py-6 text-center text-xs text-ink-3">
+                Todavía no cargaste ningún tema.
+              </p>
             ) : (
               <div className="flex flex-col gap-3">
                 {studyPlan.topics.map((topic) => (
