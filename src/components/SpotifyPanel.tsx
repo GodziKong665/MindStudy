@@ -12,6 +12,7 @@ import {
   loadTokens,
   openSpotifySearch,
   parseCallback,
+  playPlaylist,
   startPlayback,
   validAccessToken,
   type SpotifyProfile,
@@ -165,14 +166,16 @@ export function SpotifyPanel() {
       {/* Playlist destacada como tarjeta propia: sin iframe, sin verde de marca
           y sin bloque muerto. La portada es la imagen oficial de la playlist. */}
       <div className="mb-4">
-        <a
-          href={FEATURED_PLAYLIST.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={`Reproducir ${FEATURED_PLAYLIST.name} en Spotify`}
-          className="group d-flex align-items-center gap-3 rounded-md border border-line bg-surface-3 p-3 transition-colors hover:border-line-strong hover:bg-surface-2"
-        >
-          <span className="relative shrink-0">
+        <div className="group d-flex align-items-center gap-3 rounded-md border border-line bg-surface-3 p-3 transition-colors hover:border-line-strong hover:bg-surface-2">
+          {/* Play: pide abrir la app de Spotify, que arranca sola. No navega
+              esta pestaña. */}
+          <button
+            type="button"
+            onClick={() => playPlaylist(FEATURED_PLAYLIST)}
+            className="relative shrink-0"
+            aria-label={`Reproducir ${FEATURED_PLAYLIST.name} en la app de Spotify`}
+            title="Reproducir en la app de Spotify"
+          >
             <img
               src={FEATURED_PLAYLIST.cover}
               alt={`Portada de la playlist ${FEATURED_PLAYLIST.name}`}
@@ -181,32 +184,43 @@ export function SpotifyPanel() {
               loading="lazy"
               className="size-16 rounded-sm object-cover"
             />
-            {/* Botón de play: abre Spotify, que es donde la lista suena. */}
             <span className="absolute inset-0 grid place-items-center rounded-sm bg-ink/25 transition-colors group-hover:bg-ink/40">
               <span className="grid size-8 place-items-center rounded-full bg-primary text-primary-fg shadow-[0_2px_10px_rgba(0,0,0,0.45)]">
                 <Play className="size-4 translate-x-[1px]" fill="currentColor" />
               </span>
             </span>
-          </span>
-          <span className="min-w-0 flex-1">
-            <span className="block truncate text-[0.875rem] font-semibold text-ink">
+          </button>
+
+          <div className="min-w-0 flex-1">
+            <a
+              href={FEATURED_PLAYLIST.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block truncate text-[0.875rem] font-semibold text-ink hover:underline"
+            >
               {FEATURED_PLAYLIST.name}
-            </span>
+            </a>
             <span className="block truncate text-[0.6875rem] text-ink-3">
               {FEATURED_PLAYLIST.author} · {FEATURED_PLAYLIST.tracks} canciones
             </span>
             <span className="mt-0.5 block truncate text-[0.625rem] text-ink-3">
               Música relajante de Minecraft
             </span>
-          </span>
-          <span className="btn btn-outline shrink-0 gap-1.5 px-2.5 py-1 text-[0.6875rem]">
+          </div>
+
+          <a
+            href={FEATURED_PLAYLIST.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-outline shrink-0 gap-1.5 px-2.5 py-1 text-[0.6875rem]"
+          >
             <ExternalLink className="size-3" />
             Abrir en Spotify
-          </span>
-        </a>
+          </a>
+        </div>
         <p className="mt-2 text-[0.625rem] leading-relaxed text-ink-3">
-          Se abre en tu cuenta de Spotify, así la música sigue sonando mientras
-          navegás las demás secciones.
+          El play abre la app de Spotify, que arranca la lista sola y sigue sonando
+          aunque navegues las demás secciones.
         </p>
       </div>
 

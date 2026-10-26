@@ -343,6 +343,34 @@ export const FEATURED_PLAYLIST = {
   cover: 'https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da84e66aa93762dfe7f76e94bf63',
 }
 
+export function playlistUri(id: string): string {
+  return `spotify:playlist:${id}`
+}
+
+/**
+ * Pide al sistema que abra la app de Spotify sin sacar al usuario de la página
+ * (iframe oculto). La app arranca la reproducción por su cuenta.
+ *
+ * Si la app no está instalada el esquema no hace nada, así que a los 900 ms
+ * abrimos el reproductor web en una pestaña nueva como respaldo. El web player
+ * siempre necesita un clic: los navegadores bloquean el autoplay.
+ */
+export function playPlaylist(playlist: { id: string; url: string }): void {
+  const frame = document.createElement('iframe')
+  frame.setAttribute('aria-hidden', 'true')
+  frame.tabIndex = -1
+  frame.style.display = 'none'
+  frame.src = playlistUri(playlist.id)
+  document.body.appendChild(frame)
+  window.setTimeout(() => frame.remove(), 2000)
+
+  window.setTimeout(() => {
+    if (document.visibilityState === 'visible') {
+      window.open(playlist.url, '_blank', 'noopener')
+    }
+  }, 900)
+}
+
 export function openSpotifySearch(query: string): void {
   window.open(`https://open.spotify.com/search/${encodeURIComponent(query)}`, '_blank', 'noopener')
 }

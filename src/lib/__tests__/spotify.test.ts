@@ -7,6 +7,7 @@ import {
   challengeFor,
   loadTokens,
   parseCallback,
+  playlistUri,
   randomString,
   saveTokens,
   clearTokens,
@@ -81,6 +82,10 @@ describe('playlist destacada', () => {
       'https://open.spotify.com/playlist/7H8fXJlcrJ4fxL8eJwT0nm',
     )
     expect(FEATURED_PLAYLIST.cover.startsWith('https://')).toBe(true)
+  })
+
+  it('construye el esquema de la app para arrancar la reproduccion', () => {
+    expect(playlistUri('7H8fXJlcrJ4fxL8eJwT0nm')).toBe('spotify:playlist:7H8fXJlcrJ4fxL8eJwT0nm')
   })
 })
 
