@@ -64,29 +64,30 @@ export function CatScene({ playing }: { playing: boolean }) {
   const [failed, setFailed] = useState(false)
 
   return (
-    <div className="relative overflow-hidden rounded-[6px] border border-line bg-surface-3">
+    <div className="relative mx-auto w-full max-w-[26rem]">
       {/* Halo de tinta: respira solo cuando hay algo sonando. */}
       <div
         aria-hidden
         className={clsx(
-          'pointer-events-none absolute inset-0 transition-opacity duration-700',
+          'pointer-events-none absolute -inset-6 rounded-full transition-opacity duration-700',
           playing ? 'opacity-100' : 'opacity-0',
         )}
         style={{
           background:
-            'radial-gradient(70% 60% at 50% 35%, var(--ms-primary-soft) 0%, transparent 75%)',
+            'radial-gradient(circle, var(--ms-primary-soft) 0%, transparent 70%)',
         }}
       />
 
-      <div className="relative aspect-[4/5] w-full">
+      {/* El contenedor toma la forma de la foto: círculo. */}
+      <div className="relative aspect-square w-full overflow-hidden rounded-full border border-line bg-surface-3">
         {failed ? (
-          <div className="flex h-full w-full items-center justify-center p-6">
+          <div className="flex h-full w-full items-center justify-center p-10">
             <CatFallback />
           </div>
         ) : (
           <img
             src={CAT_IMAGE}
-            alt="El gato de MindStudy con auriculares, en la consola"
+            alt="El gato de MindStudy con auriculares"
             onError={() => setFailed(true)}
             className="h-full w-full object-cover"
           />
@@ -94,7 +95,7 @@ export function CatScene({ playing }: { playing: boolean }) {
       </div>
 
       {playing && (
-        <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-surface/90 px-3 py-1.5 backdrop-blur-sm">
+        <div className="absolute -bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-1.5 rounded-full border border-line bg-surface px-3 py-1.5">
           {[0, 1, 2].map((bar) => (
             <span
               key={bar}
