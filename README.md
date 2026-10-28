@@ -94,6 +94,6 @@ React 18 · TypeScript (strict) · Vite 6 · Tailwind CSS v4 · Vitest
 - **Una sola fuente de verdad.** XP, nivel, racha, estadísticas y jardín se derivan de `sessions`. No hay contadores paralelos que se puedan desincronizar.
 - **`public/gato.jpg`** es la portada de la sección Música: 1000×1000 y 134 KB. Si falta, la escena cae a una ilustración vectorial.
 
-## Riesgo
+## Riesgo conocido
 
-`Risk: item 1 (persistencia local versionada: un cambio de shape en el estado descarta datos previos en vez de migrarlos)` — hoy es aceptable porque no hay datos de producción. Antes de un release público, escribir migraciones reales en `src/lib/storage.ts`.
+La persistencia local está versionada (`mindstudy:v2`): si cambia la forma del estado, los datos previos se descartan enteros en vez de migrarse. Hoy es aceptable porque no hay datos de producción. Antes de un release público hay que escribir migraciones reales en `src/lib/storage.ts`.
